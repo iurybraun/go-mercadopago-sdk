@@ -26,6 +26,10 @@ func (s *ServiceStub) CreatePreference(_ string, _ NewPreference) (string, strin
     return s.id, s.checkout, s.err
 }
 
+/*func (s *ServiceStub) GetPaymentsSearch(_ string, _ string) (int, error) {
+    return s.totalPayments, s.err
+}*/
+
 func (s *ServiceStub) GetTotalPayments(_ string, _ string) (int, error) {
     return s.totalPayments, s.err
 }
