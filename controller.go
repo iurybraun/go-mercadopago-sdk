@@ -5,7 +5,7 @@ type ClientGateway interface {
     CreatePreference(accessToken string, preference NewPreference) (string, string, error)
     GetCheckoutPreferences(accessToken string, id string) (int, error)
     GetPayments(accessToken string, id string) (PaymentReq, error)
-    GetPaymentsSearch(accessToken string, external_reference string) (PaymentReq, error)
+    GetPaymentsSearch(accessToken string, external_reference string) (PaymentReqSearch, error)
     GetTotalPayments(accessToken string, status string) (int, error)
 }
 
@@ -38,7 +38,7 @@ func (s *Controller) GetPayments(accessToken string, id string) (PaymentReq, err
     return s.Client.GetPayments(accessToken, id)
 }
 
-func (s *Controller) GetPaymentsSearch(accessToken string, external_reference string) (PaymentReq, error) {
+func (s *Controller) GetPaymentsSearch(accessToken string, external_reference string) (PaymentReqSearch, error) {
     return s.Client.GetPaymentsSearch(accessToken, external_reference)
 }
 
