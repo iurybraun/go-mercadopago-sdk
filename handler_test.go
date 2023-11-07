@@ -22,8 +22,8 @@ func (s *ServiceStub) GetAccessToken(_ string, _ string) (string, error) {
     return s.accessToken, s.err
 }
 
-func (s *ServiceStub) CreatePreference(_ string, _ NewPreference) (string, error) {
-    return s.checkout, s.err
+func (s *ServiceStub) CreatePreference(_ string, _ NewPreference) (string, string, error) {
+    return s.id, s.checkout, s.err
 }
 
 func (s *ServiceStub) GetTotalPayments(_ string, _ string) (int, error) {
