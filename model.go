@@ -40,6 +40,7 @@ type Redirect struct {
 }
 
 type NewPreference struct {
+	External_reference string `json:"external_reference"`
     Items []Item `json:"items" validate:"required,min=1"`
     Payer Payer `json:"payer" validate:"required"`
     Redirect Redirect `json:"back_urls"`
