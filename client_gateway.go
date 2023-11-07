@@ -42,6 +42,16 @@ type PaymentReq struct {
 	Status string `json:"status"`
 }
 
+type PaymentReqSearch struct {
+	Results	[]struct {
+		Id int `json:"id"`
+		External_reference string `json:"external_reference"`
+		Collector_id int `json:"collector_id"`
+		Currency_id string `json:"currency_id"`
+		Status string `json:"status"`
+	}
+}
+
 func (g *Gateway) GetAccessToken(credentials Credentials) (string, error) {
     path := &url.Values{}
     path.Add("client_id", credentials.ClientID)
@@ -204,7 +214,7 @@ func (g *Gateway) GetPayments(accessToken string, id string) (payment PaymentReq
     return
 }
 
-func (g *Gateway) GetPaymentsSearch(accessToken string, external_reference string) (payment PaymentReq, err error) {
+func (g *Gateway) GetPaymentsSearch(accessToken string, external_reference string) (payment PaymentReqSearch, err error) {
     ///queryValues := &url.Values{}
     ///queryValues.Add("limit", "1")
     ///queryValues.Add("offset", "0")
