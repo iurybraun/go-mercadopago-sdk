@@ -49,7 +49,7 @@ type PaymentReqSearch struct {
 		Collector_id int `json:"collector_id"`
 		Currency_id string `json:"currency_id"`
 		Status string `json:"status"`
-	}
+	} `json:"results"`
 }
 
 func (g *Gateway) GetAccessToken(credentials Credentials) (string, error) {
@@ -246,11 +246,11 @@ func (g *Gateway) GetPaymentsSearch(accessToken string, external_reference strin
         err = NewError(string(body), resp.StatusCode)
     }
     
-    r := PaymentReq{}
-    if err := json.Unmarshal(body, &r); err != nil {
-        return payment, err
+    ///r := PaymentReqSearch{}
+    if err = json.Unmarshal(body, &payment); err != nil {
+		return
     }
-fmt.Println(r)
+    
     return
 }
 
