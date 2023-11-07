@@ -92,6 +92,8 @@ func (g *Gateway) CreatePreference(accessToken string, preference NewPreference)
     }
 
     var r struct {
+        Id string `json:"id"`
+        Client_id string `json:"client_id"`
         CheckoutURL string `json:"init_point"`
     }
 
@@ -99,7 +101,7 @@ func (g *Gateway) CreatePreference(accessToken string, preference NewPreference)
         return "", err
     }
 
-    return r.CheckoutURL, nil
+    return r.Id, r.CheckoutURL, nil
 }
 
 func (g *Gateway) GetTotalPayments(accessToken string, status string) (int, error) {
