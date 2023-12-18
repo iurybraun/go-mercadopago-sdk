@@ -56,7 +56,7 @@ type NewPreference struct {
     Notification_url string `json:"notification_url"`
     Payer Payer `json:"payer" validate:"required"`
     Redirect Redirect `json:"back_urls"`
-    AutoReturn bool `json:"auto_return"`
+    //AutoReturn bool `json:"auto_return"`
 }
 
 type Payment_methods struct {
