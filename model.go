@@ -6,6 +6,7 @@ type Credentials struct {
 }
 
 type Item struct {
+    Id       	string  `json:"id" validate:"id"`
     Title       string  `json:"title" validate:"required"`
     Description string  `json:"description"`
     PictureURL  string  `json:"picture_url"`
@@ -18,19 +19,25 @@ type Payer struct {
     Surname string `json:"surname"`
     Email   string `json:"email" validate:"required"`
     Phone Phone `json:"phone" validate:"required"`
+    Identification Identification `json:"identification" validate:"identification"`
     Address Address `json:"address" validate:"required"`
     CreatedAt string `json:"date_created" validate:"required"`
 }
 
 type Phone struct {
-    AreaCode string `json:"area_code"`
-    Number   string `json:"number" validate:"required"`
+    Area_code 	string `json:"area_code"`
+    Number   	string `json:"number" validate:"required"`
+}
+
+type Identification struct {
+    Type 	string `json:"type"`
+    Number  string `json:"number" validate:"required"`
 }
 
 type Address struct {
-    ZipCode string `json:"zip_code"`
-    Street  string `json:"street" validate:"required"`
-    Number  int    `json:"number" validate:"required"`
+    Street_name  	string `json:"street_name" validate:"street_name"`
+    Street_number  	int    `json:"street_number" validate:"street_number"`
+    Zip_code 		string `json:"zip_code"`
 }
 
 type Redirect struct {
@@ -42,8 +49,18 @@ type Redirect struct {
 type NewPreference struct {
 	External_reference string `json:"external_reference"`
     Items []Item `json:"items" validate:"required,min=1"`
+    Payment_methods Payment_methods `json:"payment_methods"`
     Notification_url string `json:"notification_url"`
     Payer Payer `json:"payer" validate:"required"`
     Redirect Redirect `json:"back_urls"`
     AutoReturn bool `json:"auto_return"`
+}
+
+type Payment_methods struct {
+	Excluded_payment_methods 	[]Excluded_payment_methods `json:"excluded_payment_methods"`
+    Installments 				int `json:"installments"`
+}
+
+type Excluded_payment_methods struct {
+	Id	string `json:"id"`
 }
