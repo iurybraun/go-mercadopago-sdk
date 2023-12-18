@@ -11,6 +11,7 @@ type Item struct {
     Description string  `json:"description"`
     PictureURL  string  `json:"picture_url"`
     Category_id string  `json:"category_id"`
+    Currency_id string  `json:"currency_id"`
     Quantity    int     `json:"quantity" validate:"required"`
     UnitPrice   float64 `json:"unit_price" validate:"required"`
 }
@@ -50,18 +51,20 @@ type Redirect struct {
 }
 
 type NewPreference struct {
-	External_reference string `json:"external_reference"`
-    Items []Item `json:"items" validate:"required,min=1"`
-    Payment_methods Payment_methods `json:"payment_methods"`
-    Notification_url string `json:"notification_url"`
-    Payer Payer `json:"payer" validate:"required"`
-    Redirect Redirect `json:"back_urls"`
-    //AutoReturn bool `json:"auto_return"`
+	External_reference 	string `json:"external_reference"`
+	Description 		string `json:"description"`
+    Items 				[]Item `json:"items" validate:"required,min=1"`
+    Payment_methods 	Payment_methods `json:"payment_methods"`
+    Notification_url 	string `json:"notification_url"`
+    Payer 				Payer `json:"payer" validate:"required"`
+    Redirect 			Redirect `json:"back_urls"`
+    AutoReturn 			bool `json:"auto_return"`
 }
 
 type Payment_methods struct {
 	Excluded_payment_methods 	[]Excluded_payment_methods `json:"excluded_payment_methods"`
     Installments 				int `json:"installments"`
+    Default_installments		int `json:"default_installments"`
 }
 
 type Excluded_payment_methods struct {
