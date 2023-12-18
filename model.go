@@ -10,18 +10,19 @@ type Item struct {
     Title       string  `json:"title" validate:"required"`
     Description string  `json:"description"`
     PictureURL  string  `json:"picture_url"`
+    Category_id string  `json:"category_id"`
     Quantity    int     `json:"quantity" validate:"required"`
     UnitPrice   float64 `json:"unit_price" validate:"required"`
 }
 
 type Payer struct {
-    Name    string `json:"name" validate:"required"`
-    Surname string `json:"surname"`
-    Email   string `json:"email" validate:"required"`
-    Phone Phone `json:"phone" validate:"required"`
-    Identification Identification `json:"identification" validate:"identification"`
-    Address Address `json:"address" validate:"required"`
-    CreatedAt string `json:"date_created" validate:"required"`
+    First_name    	string `json:"first_name" validate:"first_name"`
+    Last_name    	string `json:"last_name" validate:"last_name"`
+    Email   		string `json:"email" validate:"required"`
+    Phone 			Phone `json:"phone" validate:"required"`
+    Identification 	Identification `json:"identification" validate:"identification"`
+    Address 		Address `json:"address" validate:"required"`
+    CreatedAt 		string `json:"date_created" validate:"required"`
 }
 
 type Phone struct {
@@ -35,9 +36,11 @@ type Identification struct {
 }
 
 type Address struct {
+    Zip_code 		string `json:"zip_code"`
     Street_name  	string `json:"street_name" validate:"street_name"`
     Street_number  	int    `json:"street_number" validate:"street_number"`
-    Zip_code 		string `json:"zip_code"`
+    Neighborhood  	string `json:"neighborhood" validate:"neighborhood"`
+    City  			string `json:"city" validate:"city"`
 }
 
 type Redirect struct {
