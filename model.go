@@ -44,12 +44,6 @@ type Address struct {
     City  			string `json:"city" validate:"city"`
 }
 
-type Redirect struct {
-    Success string `json:"success"`
-    Pending string `json:"pending"`
-    failure string `json:"failure"`
-}
-
 type NewPreference struct {
 	External_reference 	string `json:"external_reference"`
 	Description 		string `json:"description"`
@@ -57,8 +51,21 @@ type NewPreference struct {
     Payment_methods 	Payment_methods `json:"payment_methods"`
     Notification_url 	string `json:"notification_url"`
     Payer 				Payer `json:"payer" validate:"required"`
-    Redirect 			Redirect `json:"back_urls"`
-    AutoReturn 			bool `json:"auto_return"`
+    Redirect_urls 		Redirect_urls `json:"redirect_urls"`
+    Back_urls 			Back_urls `json:"back_urls"`
+    AutoReturn 			string `json:"auto_return"`
+}
+
+type Redirect_urls struct {
+    Success string `json:"success"`
+    Pending string `json:"pending"`
+    Failure string `json:"failure"`
+}
+
+type Back_urls struct {
+    Success string `json:"success"`
+    Pending string `json:"pending"`
+    Failure string `json:"failure"`
 }
 
 type Payment_methods struct {
