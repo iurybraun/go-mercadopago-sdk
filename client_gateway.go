@@ -30,6 +30,7 @@ type PaymentReq struct {
 	Client_id string `json:"client_id"`
 	Collector_id int `json:"collector_id"`
 	Currency_id string `json:"currency_id"`
+	Payment_type_id string `json:"payment_type_id"`
 	Date_approved string `json:"date_approved"`
 	External_reference string `json:"external_reference"`
 	Installments int `json:"installments"`
@@ -37,6 +38,13 @@ type PaymentReq struct {
 		Id string `json:"id"`
 		Type string `json:"type"`
 	} `json:"order"`
+	Payer struct {
+		Email string `json:"email"`
+		Identification struct {
+			Type 	string `json:"type"`
+			Number 	int `json:"number"`
+		} `json:"identification"`
+	} `json:"payer"`
 	Transaction_amount int `json:"transaction_amount"`
 	Captured bool `json:"captured"`
 	Status string `json:"status"`
@@ -97,46 +105,47 @@ func (g *Gateway) GetAccessToken(credentials Credentials) (string, error) {
     return r.AccessToken, nil
 }
 
-func (g *Gateway) CreatePreference(accessToken string, preference NewPreference) (string, string, error) {
+func (g *Gateway) CreatePreference(accessToken string, preference NewPreference) (string, int, string, error) {
     queryValues := &url.Values{}
     queryValues.Add("access_token", accessToken)
     queryParams := queryValues.Encode()
 
     b, err := json.Marshal(preference)
     if err != nil {
-        return "", "", err
+        return "", int(0), "", err
     }
 
     req, err := http.NewRequest("POST", fmt.Sprintf("%s%s%s", _baseURL, "/checkout/preferences?", queryParams), bytes.NewReader(b))
     if err != nil {
-        return "", "", err
+        return "", int(0), "", err
     }
 
     resp, err := g.Client.Do(req)
     if err != nil {
-        return "", "", err
+        return "", int(0), "", err
     }
 
     body, err := ioutil.ReadAll(resp.Body)
     if err != nil {
-        return "", "", err
+        return "", int(0), "", err
     }
 
     if resp.StatusCode >= http.StatusBadRequest {
-        return "", "", NewError(string(body), resp.StatusCode)
+        return "", int(0), "", NewError(string(body), resp.StatusCode)
     }
 
     var r struct {
         Id string `json:"id"`
+        Collector_id int `json:"collector_id"`
         Client_id string `json:"client_id"`
         CheckoutURL string `json:"init_point"`
     }
 
     if err := json.Unmarshal(body, &r); err != nil {
-        return "", "", err
+        return "", int(0), "", err
     }
 
-    return r.Id, r.CheckoutURL, nil
+    return r.Id, r.Collector_id, r.CheckoutURL, nil
 }
 
 func (g *Gateway) GetCheckoutPreferences(accessToken string, id string) (int, error) {
@@ -212,14 +221,15 @@ func (g *Gateway) GetPayments(accessToken string, id string) (payment PaymentReq
 
     if resp.StatusCode >= http.StatusBadRequest {
         err = NewError(string(body), resp.StatusCode)
+        return
     }
     
-    r := PaymentReq{}
-    if err := json.Unmarshal(body, &r); err != nil {
-        return payment, err
+    //r := PaymentReq{}
+    if err := json.Unmarshal(body, &payment); err != nil {
+		return payment, err
     }
     
-    return
+    return payment, nil
 }
 
 func (g *Gateway) GetPaymentsSearch(accessToken string, external_reference string) (payment PaymentReqSearch, err error) {
