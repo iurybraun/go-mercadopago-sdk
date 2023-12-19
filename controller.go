@@ -2,7 +2,7 @@ package mercadopago
 
 type ClientGateway interface {
     GetAccessToken(credentials Credentials) (string, error)
-    CreatePreference(accessToken string, preference NewPreference) (string, string, error)
+    CreatePreference(accessToken string, preference NewPreference) (string, int, string, error)
     GetCheckoutPreferences(accessToken string, id string) (int, error)
     GetPayments(accessToken string, id string) (PaymentReq, error)
     GetPaymentsSearch(accessToken string, external_reference string) (PaymentReqSearch, error)
@@ -26,7 +26,7 @@ func (s *Controller) GetAccessToken(clientID string, clientSecret string) (strin
     })
 }
 
-func (s *Controller) CreatePreference(accessToken string, preference NewPreference) (string, string, error) {
+func (s *Controller) CreatePreference(accessToken string, preference NewPreference) (string, int, string, error) {
     return s.Client.CreatePreference(accessToken, preference)
 }
 
