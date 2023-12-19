@@ -44,11 +44,19 @@ type PaymentReq struct {
 
 type PaymentReqSearch struct {
 	Results	[]struct {
-		Id int `json:"id"`
-		External_reference string `json:"external_reference"`
-		Collector_id int `json:"collector_id"`
-		Currency_id string `json:"currency_id"`
-		Status string `json:"status"`
+		Id 					int `json:"id"`
+		External_reference 	string `json:"external_reference"`
+		Collector_id 		int `json:"collector_id"`
+		Currency_id 		string `json:"currency_id"`
+		Payment_type_id 	string `json:"payment_type_id"`
+		Payer struct {
+			Email string `json:"email"`
+			Identification struct {
+				Type 	string `json:"type"`
+				Number 	int `json:"number"`
+			} `json:"identification"`
+		} `json:"payer"`
+		Status 				string `json:"status"`
 	} `json:"results"`
 }
 
