@@ -68,6 +68,19 @@ type PaymentReqSearch struct {
 	} `json:"results"`
 }
 
+/*type MerchantOrders struct {
+	Elements []struct {
+		Id 					int `json:"id"`
+		External_reference 	string `json:"external_reference"`
+		Preference_id 		string `json:"preference_id"`
+		Payments	[]struct {	
+			Id 		string `json:"collector_id"`
+			Status 	string `json:"currency_id"`
+		} `json:"payments"`
+		Status 				string `json:"status"`
+	} `json:"elements"`
+}*/
+
 func (g *Gateway) GetAccessToken(credentials Credentials) (string, error) {
     path := &url.Values{}
     path.Add("client_id", credentials.ClientID)
@@ -105,47 +118,47 @@ func (g *Gateway) GetAccessToken(credentials Credentials) (string, error) {
     return r.AccessToken, nil
 }
 
-func (g *Gateway) CreatePreference(accessToken string, preference NewPreference) (string, int, string, error) {
+func (g *Gateway) CreatePreference(accessToken string, preference NewPreference) (string, string, error) {
     queryValues := &url.Values{}
     queryValues.Add("access_token", accessToken)
     queryParams := queryValues.Encode()
 
     b, err := json.Marshal(preference)
     if err != nil {
-        return "", int(0), "", err
+        return "", "", err
     }
 
     req, err := http.NewRequest("POST", fmt.Sprintf("%s%s%s", _baseURL, "/checkout/preferences?", queryParams), bytes.NewReader(b))
     if err != nil {
-        return "", int(0), "", err
+        return "", "", err
     }
 
     resp, err := g.Client.Do(req)
     if err != nil {
-        return "", int(0), "", err
+        return "", "", err
     }
 
     body, err := ioutil.ReadAll(resp.Body)
     if err != nil {
-        return "", int(0), "", err
+        return "", "", err
     }
 
     if resp.StatusCode >= http.StatusBadRequest {
-        return "", int(0), "", NewError(string(body), resp.StatusCode)
+        return "", "", NewError(string(body), resp.StatusCode)
     }
 
     var r struct {
         Id string `json:"id"`
-        Collector_id int `json:"collector_id"`
+        //Collector_id int `json:"collector_id"`
         Client_id string `json:"client_id"`
         CheckoutURL string `json:"init_point"`
     }
 
     if err := json.Unmarshal(body, &r); err != nil {
-        return "", int(0), "", err
+        return "", "", err
     }
 
-    return r.Id, r.Collector_id, r.CheckoutURL, nil
+    return r.Id, r.CheckoutURL, nil
 }
 
 func (g *Gateway) GetCheckoutPreferences(accessToken string, id string) (int, error) {
@@ -244,6 +257,9 @@ func (g *Gateway) GetPaymentsSearch(accessToken string, external_reference strin
     //https://api.mercadopago.com/v1/payments/search?sort=date_created&criteria=desc&external_reference=ID_a9XY6Qd+aKTswbX2sdZQ/B0Mzs8pSWnzynl/CR1Ek5Y
     
     req, err := http.NewRequest("GET", _baseURL + "/v1/payments/search?sort=date_created&criteria=desc&external_reference="+external_reference, nil)
+    fmt.Println(_baseURL + "/v1/payments/search?sort=date_created&criteria=desc&external_reference="+external_reference)
+    fmt.Println(req)
+    fmt.Println(err)
     if err != nil {
         return
     }
@@ -271,6 +287,50 @@ func (g *Gateway) GetPaymentsSearch(accessToken string, external_reference strin
     
     return
 }
+
+/*
+func (g *Gateway) GetMerchantOrders(accessToken string, order_id string) (merchantOrder MerchantOrders, err error) {
+    ///queryValues := &url.Values{}
+    ///queryValues.Add("limit", "1")
+    ///queryValues.Add("offset", "0")
+    ///queryValues.Add("access_token", accessToken)
+    ///queryValues.Add("id", id)
+
+    ///queryParams := queryValues.Encode()
+    
+    //https://api.mercadopago.com/v1/payments/search?sort=date_created&criteria=desc&external_reference=ID_a9XY6Qd+aKTswbX2sdZQ/B0Mzs8pSWnzynl/CR1Ek5Y
+    
+    req, err := http.NewRequest("GET", _baseURL + "/v1/merchant_orders?preference_id="+order_id, nil)
+    if err != nil {
+        return
+    }
+    
+    req.Header.Add("Authorization", "Bearer " + accessToken)
+
+    resp, err := g.Client.Do(req)
+    if err != nil {
+        return
+    }
+
+    body, err := ioutil.ReadAll(resp.Body)
+    fmt.Println(string(body))
+    fmt.Println(err)
+    if err != nil {
+        return
+	}
+
+    if resp.StatusCode >= http.StatusBadRequest {
+        err = NewError(string(body), resp.StatusCode)
+    }
+    
+    ///r := PaymentReqSearch{}
+    if err = json.Unmarshal(body, &merchantOrder); err != nil {
+		return
+    }
+    
+    return
+}
+*/
 
 func (g *Gateway) GetTotalPayments(accessToken string, status string) (int, error) {
     queryValues := &url.Values{}
