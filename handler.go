@@ -11,7 +11,7 @@ var _v = validator.New()
 
 type Service interface {
     GetAccessToken(clientID string, clientSecret string) (string, error)
-    CreatePreference(accessToken string, preference NewPreference) (string, int, string, error)
+    CreatePreference(accessToken string, preference NewPreference) (string, string, error)
     GetTotalPayments(accessToken string, status string) (int, error)
 }
 
@@ -86,7 +86,7 @@ func (h *Handler) CreatePreference(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    id, collector_id, checkoutURL, err := h.Service.CreatePreference(accessToken, preference)
+    id, checkoutURL, err := h.Service.CreatePreference(accessToken, preference)
     if err != nil {
         w.WriteHeader(getStatusCodeFromError(err))
         fmt.Fprintf(w, "couldn't create checkout: %v", err)
@@ -95,7 +95,6 @@ func (h *Handler) CreatePreference(w http.ResponseWriter, r *http.Request) {
 
     w.WriteHeader(http.StatusOK)
     fmt.Fprintf(w, fmt.Sprintf("%s", id))
-    fmt.Fprintf(w, fmt.Sprintf("%s", collector_id))
     fmt.Fprintf(w, fmt.Sprintf("%s", checkoutURL))
 }
 
