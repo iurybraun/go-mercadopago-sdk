@@ -51,16 +51,16 @@ type NewPreference struct {
     Payment_methods 	Payment_methods `json:"payment_methods"`
     Notification_url 	string `json:"notification_url"`
     Payer 				Payer `json:"payer" validate:"required"`
-    Redirect_urls 		Redirect_urls `json:"redirect_urls"`
+    //Redirect_urls 		Redirect_urls `json:"redirect_urls"`
     Back_urls 			Back_urls `json:"back_urls"`
     AutoReturn 			string `json:"auto_return"`
 }
 
-type Redirect_urls struct {
+/*type Redirect_urls struct {
     Success string `json:"success"`
     Pending string `json:"pending"`
     Failure string `json:"failure"`
-}
+}*/
 
 type Back_urls struct {
     Success string `json:"success"`
@@ -71,7 +71,7 @@ type Back_urls struct {
 type Payment_methods struct {
 	Excluded_payment_methods 	[]Excluded_payment_methods `json:"excluded_payment_methods"`
     Installments 				int `json:"installments"`
-    Default_installments		int `json:"default_installments"`
+    //Default_installments		int `json:"default_installments"`
 }
 
 type Excluded_payment_methods struct {
