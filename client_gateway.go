@@ -42,7 +42,7 @@ type PaymentReq struct {
 		Email string `json:"email"`
 		Identification struct {
 			Type 	string `json:"type"`
-			Number 	int `json:"number"`
+			Number 	string `json:"number"`
 		} `json:"identification"`
 	} `json:"payer"`
 	Transaction_amount int `json:"transaction_amount"`
@@ -61,7 +61,7 @@ type PaymentReqSearch struct {
 			Email string `json:"email"`
 			Identification struct {
 				Type 	string `json:"type"`
-				Number 	int `json:"number"`
+				Number 	string `json:"number"`
 			} `json:"identification"`
 		} `json:"payer"`
 		Status 				string `json:"status"`
