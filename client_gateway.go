@@ -45,7 +45,7 @@ type PaymentReq struct {
 			Number 	string `json:"number"`
 		} `json:"identification"`
 	} `json:"payer"`
-	Transaction_amount int `json:"transaction_amount"`
+	Transaction_amount float32 `json:"transaction_amount"`
 	Captured bool `json:"captured"`
 	Status string `json:"status"`
 }
