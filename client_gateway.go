@@ -7,9 +7,6 @@ import (
     "io/ioutil"
     "net/http"
     "net/url"
-
-	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/preapproval"
 )
 
 const _baseURL = "https://api.mercadopago.com"
@@ -289,30 +286,6 @@ func (g *Gateway) GetPaymentsSearch(accessToken string, external_reference strin
     }
     
     return
-}
-
-func GetSubscriptionsSearch(
-	ctx context.Context,
-	accessToken string,
-	filters map[string]interface{},
-) (*preapproval.SearchResponse, error) {
-
-	// Configura token
-	cfg, err := config.New(accessToken)
-	if err != nil {
-		return nil, err
-	}
-
-	client := preapproval.NewClient(cfg)
-
-	// Exemplo de filtros suportados:
-	// status, payer_email, external_reference, limit, offset, sort
-	resp, err := client.Search(ctx, filters)
-	if err != nil {
-		return nil, err
-	}
-
-	return resp, nil
 }
 
 /*
