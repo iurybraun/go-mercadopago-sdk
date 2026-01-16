@@ -6,7 +6,7 @@ type ClientGateway interface {
     GetCheckoutPreferences(accessToken string, id string) (int, error)
     GetPayments(accessToken string, id string) (PaymentReq, error)
     GetPaymentsSearch(accessToken string, external_reference string) (PaymentReqSearch, error)
-	GetSubscriptionsSearch(accessToken string, filters map[string]interface{}) (*preapproval.SearchResponse, error)
+	//GetSubscriptionsSearch(accessToken string, filters map[string]interface{}) (*preapproval.SearchResponse, error)
     //GetMerchantOrders(accessToken string, order_id string) (MerchantOrders, error)
     GetTotalPayments(accessToken string, status string) (int, error)
 }
@@ -44,9 +44,9 @@ func (s *Controller) GetPaymentsSearch(accessToken string, external_reference st
     return s.Client.GetPaymentsSearch(accessToken, external_reference)
 }
 
-func (s *Controller) GetSubscriptionsSearch(accessToken string, filters map[string]interface{}) (*preapproval.SearchResponse, error) {
+/*func (s *Controller) GetSubscriptionsSearch(accessToken string, filters map[string]interface{}) (*preapproval.SearchResponse, error) {
 	return s.Client.GetSubscriptionsSearch(accessToken, filters)
-}
+}*/
 
 /*func (s *Controller) GetMerchantOrders(accessToken string, order_id string) (MerchantOrders, error) {
     return s.Client.GetMerchantOrders(accessToken, order_id)
