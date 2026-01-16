@@ -3,7 +3,6 @@ package mercadopago
 import (
 	"bytes"
 	"io/ioutil"
-	"time"
 
 	// "context"
 	"encoding/json"
@@ -127,7 +126,9 @@ type SubscriptionResult struct {
 	ApplicationID     int64                  `json:"application_id"`
 	ExternalReference string                 `json:"external_reference"`
 	// DateCreated       time.Time              `json:"date_created"`
+	DateCreated string `json:"date_created"`
 	// LastModified      time.Time              `json:"last_modified"`
+	LastModified  string        `json:"last_modified"`
 	InitPoint     string        `json:"init_point"`
 	AutoRecurring AutoRecurring `json:"auto_recurring"`
 	// NextPaymentDate   time.Time              `json:"next_payment_date"`
@@ -138,14 +139,15 @@ type SubscriptionResult struct {
 }
 
 type SubscriptionSummarized struct {
-	Quotas                int       `json:"quotas"`
-	Semaphore             string    `json:"semaphore"`
-	ChargedQuantity       int       `json:"charged_quantity"`
-	PendingChargeQuantity int       `json:"pending_charge_quantity"`
-	ChargedAmount         float64   `json:"charged_amount"`
-	PendingChargeAmount   float64   `json:"pending_charge_amount"`
-	LastChargedDate       time.Time `json:"last_charged_date"`
-	LastChargedAmount     float64   `json:"last_charged_amount"`
+	Quotas                int     `json:"quotas"`
+	Semaphore             string  `json:"semaphore"`
+	ChargedQuantity       int     `json:"charged_quantity"`
+	PendingChargeQuantity int     `json:"pending_charge_quantity"`
+	ChargedAmount         float64 `json:"charged_amount"`
+	PendingChargeAmount   float64 `json:"pending_charge_amount"`
+	// LastChargedDate       time.Time `json:"last_charged_date"`
+	LastChargedDate   string  `json:"last_charged_date"`
+	LastChargedAmount float64 `json:"last_charged_amount"`
 }
 
 type AutoRecurring struct {
@@ -154,7 +156,9 @@ type AutoRecurring struct {
 	TransactionAmount float64 `json:"transaction_amount"`
 	CurrencyID        string  `json:"currency_id"`
 	// StartDate         time.Time `json:"start_date"`
+	StartDate string `json:"start_date"`
 	// EndDate           time.Time `json:"end_date"`
+	EndDate string `json:"end_date"`
 }
 
 func (g *Gateway) GetAccessToken(credentials Credentials) (string, error) {
