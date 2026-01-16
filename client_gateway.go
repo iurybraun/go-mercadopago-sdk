@@ -8,8 +8,8 @@ import (
     "net/http"
     "net/url"
 
-	"github.com/mercadopago/sdk-go/pkg/config"
-	"github.com/mercadopago/sdk-go/pkg/preapproval"
+	// "github.com/mercadopago/sdk-go/pkg/config"
+	// "github.com/mercadopago/sdk-go/pkg/preapproval"
 )
 
 const _baseURL = "https://api.mercadopago.com"
@@ -291,6 +291,7 @@ func (g *Gateway) GetPaymentsSearch(accessToken string, external_reference strin
     return
 }
 
+/*
 func GetSubscriptionsSearch(
 	ctx context.Context,
 	accessToken string,
@@ -314,6 +315,7 @@ func GetSubscriptionsSearch(
 
 	return resp, nil
 }
+*/
 
 /*
 func (g *Gateway) GetMerchantOrders(accessToken string, order_id string) (merchantOrder MerchantOrders, err error) {
